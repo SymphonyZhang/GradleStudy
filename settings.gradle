@@ -1,0 +1,53 @@
+// 此文件作用: 用于定义项目级代码库设置，并告知 Gradle 在构建应用时应将哪些模块包含在内。
+
+/**
+ * 这里是给 Project 的 build.gradle 使用的,并不提供给其他配置文件，当然这里也可以有依赖 dependencies ,但是当前不需要有依赖
+ * 这里的配置，是在编译期用的
+ */
+pluginManagement {
+    /**
+     * The pluginManagement {repositories {...}} block configures the
+     * repositories Gradle uses to search or download the Gradle plugins and
+     * their transitive dependencies. Gradle pre-configures support for remote
+     * repositories such as JCenter, Maven Central, and Ivy. You can also use
+     * local repositories or define your own remote repositories. The code below
+     * defines the Gradle Plugin Portal, Google's Maven repository,
+     * and the Maven Central Repository as the repositories Gradle should use to look for its dependencies.
+     */
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    /*dependencies {
+        // NOTE: Do not place your application dependencies here: they belong in the individual module build.gradle files
+    }*/
+}
+
+/**
+ * 这里是给 具体的 module 里的 build.gradle 用的, 只有这里配置了仓库或者依赖, 在具体的 module 里的 build.gradle 中的 dependencies 才能依赖到这里仓库中的第三方库
+ *  //  具体 module 的 dependencies 是给具体的源码用的(src),写代码时要用到的各种 api
+ */
+dependencyResolutionManagement {
+
+    /**
+     * The dependencyResolutionManagement { repositories {...}}
+     * block is where you configure the repositories and dependencies used by
+     * all modules in your project, such as libraries that you are using to
+     * create your application. However, you should configure module-specific
+     * dependencies in each module-level build.gradle file. For new projects,
+     * Android Studio includes Google's Maven repository
+     * and the Maven Central Repository by
+     * default, but it does not configure any dependencies (unless you select a
+     * template that requires some).
+     */
+
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "GradleStudy"
+include ':app'
+include ':secmodule'

@@ -1,0 +1,47 @@
+// 此文件作用: 用于定义适用于项目中所有模块的依赖项。
+
+/**
+ * 默认情况下，顶层 build 文件使用 plugins 代码块定义项目中所有模块共用的 Gradle 依赖项。
+ */
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    /**
+     * You should use `apply false` in the top-level build.gradle file
+     * to add a Gradle plugin as a build dependency, but not apply it to the
+     * current (root) project. You should not use `apply false` in sub-projects.
+     * For more information, see
+     * Applying external plugins with same version to subprojects.
+     */
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+}
+
+/**
+ * 顶层 build 文件还包含用于清理 build 目录的代码
+ */
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+/**
+ *  ------ 下面的代码时为了学习 手动添加的，项目默认生成时并没有这些
+  */
+
+/**
+ * 注意：虽然 Gradle 可让您在模块级别定义项目全局属性，
+ * 但您应避免这样做，因为这样会导致共享这些属性的模块相互结合。
+ * 模块结合使得以后将模块作为独立项目导出更加困难，
+ * 并实际妨碍 Gradle 利用并行项目执行加快多模块 build。
+ */
+// This block encapsulates custom properties and makes them available to all
+// modules in the project. The following are only a few examples of the types
+// of properties you can define.
+// 在 app module 和 secmodeule 中 使用了这里相关的全局属性，可以编译出apk 查看 AndroidManifest.xml 中查看结果
+ext{
+    compileSdk = 32
+    // You can also create properties to specify versions for dependencies.
+    // Having consistent versions between modules can avoid conflicts with behavior.
+    minSdk = 21
+}
