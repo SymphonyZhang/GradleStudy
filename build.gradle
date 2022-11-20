@@ -10,7 +10,7 @@ plugins {
      * to add a Gradle plugin as a build dependency, but not apply it to the
      * current (root) project. You should not use `apply false` in sub-projects.
      * For more information, see
-     * Applying external plugins with same version to subprojects.
+     * <a href= "https://docs.gradle.org/current/userguide/plugins.html#sec:subprojects_plugins_dsl">Applying external plugins with same version to subprojects.</a>
      */
     id 'com.android.application' version '7.2.1' apply false
     id 'com.android.library' version '7.2.1' apply false
@@ -39,6 +39,12 @@ task clean(type: Delete) {
 // modules in the project. The following are only a few examples of the types
 // of properties you can define.
 // 在 app module 和 secmodeule 中 使用了这里相关的全局属性，可以编译出apk 查看 AndroidManifest.xml 中查看结果
+/**
+ * 对于包含多个模块的 Android 项目，可能有必要在项目级别定义某些属性并在所有模块之间共享这些属性。为此，您可以将<a href="https://docs.gradle.org/current/userguide/writing_build_scripts.html#sec:extra_properties">额外的属性</a>添加到顶层 build.gradle 文件内的 ext 代码块中。
+ */
+
+// Use the following syntax to access properties you defined at the project level:
+// rootProject.ext.property_name
 ext{
     compileSdk = 32
     // You can also create properties to specify versions for dependencies.
