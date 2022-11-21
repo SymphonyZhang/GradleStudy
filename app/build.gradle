@@ -18,6 +18,8 @@ android {
     /**
      * The app's namespace. Used primarily to access app resources.
      * 命名空间默认时没有写出来的
+     *
+     * 每个 Android 模块都有一个命名空间，此命名空间用作其生成的 R 和 BuildConfig 类的 Java 或 Kotlin 软件包名称。
      */
     //namespace 'com.symphony.gradlestudy'
 
@@ -37,6 +39,16 @@ android {
     defaultConfig {
 
         // Uniquely identifies the package for publishing.
+        /**
+         * 应用 ID 看起来就像传统的 Java 或 Kotlin 软件包名称，但应用 ID 的命名规则限制性更强一些：
+         *  - 必须至少包含两段（一个或多个圆点）。
+         *  - 每段必须以字母开头。
+         *  - 所有字符必须为字母数字或下划线 [a-zA-Z0-9_]
+         *
+         *  注意：应用 ID 过去直接关联到代码的软件包名称；所以，有些 Android API 会在其方法名称和参数名称中使
+         *  用“package name”一词，但这实际上是您的应用 ID。例如，Context.getPackageName() 方法会返回您的
+         *  应用 ID。无论何时都不需要在应用代码以外分享代码的真实软件包名称。
+         */
         applicationId "com.symphony.gradlestudy"
 
         // Defines the minimum API level required to run the app.

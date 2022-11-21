@@ -29,3 +29,8 @@ GradleStudy
 Windows 长路径最常见的问题就是 NDK 安装文件夹中的工具（如 ld.exe）会产生非常深的路径，但工具对于长路径的支持并不佳。
 
 在 local.properties 中，您可以设置 ndk.symlinkdir 属性以请求 Gradle 插件创建指向 NDK 的符号链接。该符号链接的路径可比现有 NDK 文件夹的路径短。例如，ndk.symlinkdir = C:\ 将生成以下符号链接：C:\ndk\19.0.5232133
+
+
+## 依赖项配置
+
+在 dependencies 代码块内，您可以从多种不同的依赖项配置中选择其一（如上面所示的 implementation）来声明库依赖项。每种依赖项配置都向 Gradle 提供了有关如何使用该依赖项的不同说明。[依赖项配置行为映射表](https://developer.android.google.cn/studio/build/dependencies)
