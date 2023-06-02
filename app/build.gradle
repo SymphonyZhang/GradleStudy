@@ -2,6 +2,9 @@
  * The first line in the build configuration applies the Android plugin for
  * Gradle to this build and makes the android block available to specify
  * Android-specific build options.
+ *
+ * 构建配置中的第一行将 Android Gradle 插件应用于此构建，并使 android 块可用于指定特定于 Android 的构建选项。
+ * 这里还添加了kotlin-android插件
  */
 plugins {
     id 'com.android.application'
@@ -9,8 +12,10 @@ plugins {
 }
 
 /**
- * The android block is where you configure all your Android-specific
+ * The android{...} block is where you configure all your Android-specific
  * build options.
+ *
+ * android 块是您配置所有 Android 特定构建选项的地方。
  */
 
 android {
@@ -21,25 +26,35 @@ android {
      *
      * 每个 Android 模块都有一个命名空间，此命名空间用作其生成的 R 和 BuildConfig 类的 Java 或 Kotlin 软件包名称。
      */
-    //namespace 'com.symphony.gradlestudy'
+    namespace 'com.symphony.gradlestudy'
 
     /**
-     * compileSdkVersion specifies the Android API level Gradle should use to
+     * compileSdk specifies the Android API level Gradle should use to
      * compile your app. This means your app can use the API features included in
      * this API level and lower.
+     *
+     * compileSdk 指定 Gradle 应该用来编译您的应用程序的 Android API 级别。
+     * 这意味着您的应用程序可以使用此 API 级别及更低级别中包含的 API 功能。
      */
+    //这里就是配合Project的build.gradle里的ext{...}，使用的是在Project层的build.gradle定义的全局属性
+    //固定写法就是 rootProject.xxx.xxxx  因为定义的是在Project层，所以是rootProject
     compileSdk rootProject.ext.compileSdk
 
     /**
-     * The defaultConfig block encapsulates default settings and entries for all
-     * build variants, and can override some attributes in main/AndroidManifest.xml
+     * The defaultConfig{...} block encapsulates default settings and entries for all
+     * build variants and can override some attributes in main/AndroidManifest.xml
      * dynamically from the build system. You can configure product flavors to override
      * these values for different versions of your app.
+     *
+     * defaultConfig{...} 块封装了所有构建变体的默认设置和条目，并且可以从构建系统动态覆盖 main/AndroidManifest.xml 中的某些属性。
+     * 您可以对这些值在不同的渠道风格中进行覆盖去生成不同版本的app
      */
     defaultConfig {
 
         // Uniquely identifies the package for publishing.
-        /**
+        // 唯一标识要发布的包。
+
+        /** NOTE:
          * 应用 ID 看起来就像传统的 Java 或 Kotlin 软件包名称，但应用 ID 的命名规则限制性更强一些：
          *  - 必须至少包含两段（一个或多个圆点）。
          *  - 每段必须以字母开头。
@@ -52,15 +67,19 @@ android {
         applicationId "com.symphony.gradlestudy"
 
         // Defines the minimum API level required to run the app.
+        // 定义运行应用程序所需的最低API级别。
         minSdk rootProject.ext.minSdk
 
         // Specifies the API level used to test the app.
+        // 指定用于测试应用程序的API级别。
         targetSdk 32
 
         // Defines the version number of your app.
+        // 定义应用程序的版本号。
         versionCode 1
 
         // Defines a user-friendly version name for your app.
+        // 为应用程序定义用户友好的版本名称。
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -68,21 +87,28 @@ android {
 
 
     /**
-     * The buildTypes block is where you can configure multiple build types.
+     * The buildTypes{...} block is where you can configure multiple build types.
      * By default, the build system defines two build types: debug and release. The
      * debug build type is not explicitly shown in the default build configuration,
      * but it includes debugging tools and is signed with the debug key. The release
-     * build type applies Proguard settings and is not signed by default.
+     * build type applies ProGuard settings and is not signed by default.
+     *
+     * buildTypes｛…｝块是您可以配置多个构建类型的地方。
+     * 默认情况下，构建系统定义两种构建类型：调试和发布。
+     * 调试生成类型未显式显示在默认生成配置中，但它包括调试工具，并使用调试密钥进行签名。
+     * 发布版类型应使用用 ProGuard 设置，默认情况下不签名。
      */
     buildTypes {
 
         /**
          * By default, Android Studio configures the release build type to enable code
-         * shrinking, using minifyEnabled, and specifies the default Proguard rules file.
+         * shrinking, using minifyEnabled, and specifies the default ProGuard rules file.
+         *
+         * 默认情况下，Android Studio使用minifyEnabled将发布构建类型配置为启用代码收缩，并指定默认的ProGuard规则文件。
          */
 
         release {
-            minifyEnabled false // Enables code shrinking for the release build type.
+            minifyEnabled true // Enables code shrinking for the release build type. 启用发布版类型的代码收缩。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -96,9 +122,9 @@ android {
 
 
     /**
-     * The productFlavors block is where you can configure multiple product flavors.
-     * This allows you to create different versions of your app that can
-     * override the defaultConfig block with their own settings. Product flavors
+     * The productFlavors{...} block is where you can configure multiple <a href= "https://developer.android.google.cn/studio/build/build-variants?hl=zh-cn#product-flavors">product flavors.</a>
+     * This lets you create different versions of your app that can
+     * override the defaultConfig{...} block with their own settings. Product flavors
      * are optional, and the build system does not create them by default.
      *
      * This example creates a free and paid product flavor. Each product flavor
@@ -107,9 +133,18 @@ android {
      *
      * If you declare product flavors, you must also declare flavor dimensions
      * and assign each flavor to a flavor dimension.
+     *
+     * productFlavors{...} 块是您可以配置多种产品渠道的地方。
+     * 这使您可以创建不同版本的应用程序，这些版本可以使用自己的设置覆盖 defaultConfig{...} 块。
+     * 产品渠道打包是可选的，构建系统默认不会创建它们。
+     *
+     * 此示例创建免费和付费产品渠道打包。
+     * 每种产品渠道打包都指定了自己的应用程序 ID，以便它们可以同时存在于 Google Play 商店或 Android 设备上。
+     *
+     * 如果声明产品渠道，则还必须声明渠道维度并将每种渠道分配给一个渠道维度。
      */
 
-    /*flavorDimensions "tier"
+    flavorDimensions "tier"
     productFlavors {
         free {
             dimension "tier"
@@ -120,14 +155,16 @@ android {
             dimension "tier"
             applicationId 'com.example.myapp.paid'
         }
-    }*/
+    }
 }
 
 
 /**
- * The dependencies block in the module-level build configuration file
+ * The dependencies{...} block in the module-level build configuration file
  * specifies dependencies required to build only the module itself.
- * To learn more, go to Add build dependencies.
+ * To learn more, go to <a href= "https://developer.android.google.cn/studio/build/dependencies?hl=zh-cn&agpversion=4.1">Add build dependencies.</a>
+ *
+ * 模块级生成配置文件中的依赖项｛…｝块指定仅生成模块本身所需的依赖项。
  *
  *  这里的依赖就是提供编写代码时需要的API
  */

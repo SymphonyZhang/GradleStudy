@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    //这里就是配合Project的build.gradle里的ext{...}，使用的是在Project层的build.gradle定义的全局属性
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {

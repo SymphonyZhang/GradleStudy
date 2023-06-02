@@ -4,6 +4,7 @@
  * 默认情况下，顶层 build 文件使用 plugins 代码块定义项目中所有模块共用的 Gradle 依赖项。
  */
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+// 顶级构建文件，您可以在其中添加所有子项目/模块通用的配置选项。
 plugins {
     /**
      * You should use `apply false` in the top-level build.gradle file
@@ -11,6 +12,10 @@ plugins {
      * current (root) project. You should not use `apply false` in sub-projects.
      * For more information, see
      * <a href= "https://docs.gradle.org/current/userguide/plugins.html#sec:subprojects_plugins_dsl">Applying external plugins with same version to subprojects.</a>
+     *
+     * 您应该在顶级build.gradle文件中使用“apply false”来添加Gradle插件作为构建依赖项，
+     * 但不要将其应用于当前（根）项目。您不应该在子项目中使用“应用 false”。
+     * 有关更多信息，请参阅 <a href= "https://docs.gradle.org/current/userguide/plugins.html#sec:subprojects_plugins_dsl">将相同版本的外部插件应用于子项目。</a>
      */
     id 'com.android.application' version '7.2.1' apply false
     id 'com.android.library' version '7.2.1' apply false
@@ -26,7 +31,7 @@ task clean(type: Delete) {
 
 
 /**
- *  ------ 下面的代码时为了学习 手动添加的，项目默认生成时并没有这些
+ *  ------ 下面的代码是为了学习 手动添加的，项目默认生成时并没有这些
   */
 
 /**
@@ -35,12 +40,16 @@ task clean(type: Delete) {
  * 模块结合使得以后将模块作为独立项目导出更加困难，
  * 并实际妨碍 Gradle 利用并行项目执行加快多模块 build。
  */
-// This block encapsulates custom properties and makes them available to all
-// modules in the project. The following are only a few examples of the types
-// of properties you can define.
+
+/**
+ * This block encapsulates custom properties and makes them available to all
+ * modules in the project. The following are only a few examples of the types
+ * of properties you can define.
+*/
+
 // 在 app module 和 secmodeule 中 使用了这里相关的全局属性，可以编译出apk 查看 AndroidManifest.xml 中查看结果
 /**
- * 对于包含多个模块的 Android 项目，可能有必要在项目级别定义某些属性并在所有模块之间共享这些属性。为此，您可以将<a href="https://docs.gradle.org/current/userguide/writing_build_scripts.html#sec:extra_properties">额外的属性</a>添加到顶层 build.gradle 文件内的 ext 代码块中。
+ * 对于包含多个模块的 Android 项目，可能有必要在项目级别定义某些属性并在所有模块之间共享这些属性。为此，您可以将<a href="https://docs.gradle.org/current/userguide/writing_build_scripts.html#sec:extra_properties">额外的属性</a>添加到顶层 build.gradle 文件内的 ext{...} 代码块中。
  */
 
 // Use the following syntax to access properties you defined at the project level:

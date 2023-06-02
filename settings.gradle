@@ -1,51 +1,80 @@
 // 此文件作用: 用于定义项目级代码库设置，并告知 Gradle 在构建应用时应将哪些模块包含在内。
-
-/**
+/*
  * 这里是给 Project 的 build.gradle 使用的,并不提供给其他配置文件，当然这里也可以有依赖 dependencies ,但是当前不需要有依赖
  * 这里的配置，是在编译期用的
  */
 pluginManagement {
-    /**
-     * The pluginManagement {repositories {...}} block configures the
-     * repositories Gradle uses to search or download the Gradle plugins and
-     * their transitive dependencies. Gradle pre-configures support for remote
-     * repositories such as JCenter, Maven Central, and Ivy. You can also use
-     * local repositories or define your own remote repositories. The code below
-     * defines the Gradle Plugin Portal, Google's Maven repository,
-     * and the Maven Central Repository as the repositories Gradle should use to look for its dependencies.
-     */
+/ *
+  * The pluginManagement {repositories {...}} block configures the
+  * repositories Gradle uses to search or download the Gradle plugins and
+  * their transitive dependencies. Gradle pre-configures support for remote
+  * repositories such as google, Maven Central, and Ivy. You can also use
+  * local repositories or define your own remote repositories. The code below
+  * defines the Gradle Plugin Portal, Google's Maven repository,
+  * and the Maven Central Repository as the repositories Gradle should use to look for its dependencies.
+  * 
+  * pluginManagement {repositories {...}} 块是配置 Gradle 用来搜索或下载 Gradle 插件及其传递依赖项的存储库。
+  * Gradle预配置了对google，Maven Central和Ivy等远程存储库的支持。
+  * 您还可以使用本地存储库或定义自己的远程存储库。
+  * 下面的代码将 Gradle 插件门户、Google 的 Maven 存储库和 Maven Central Repository 定义为 Gradle 应该用来查找其依赖项的存储库。
+  */
+
+
+    / *
+      * repository list
+      * 仓库列表
+      * /
     repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
+        google()                            //Google 的 Maven
+        mavenCentral()                      //Maven Central Repository
+        gradlePluginPortal()                //Gradle插件门户
+        maven {url 'https://jitpack.io'}    //自己添加的第三方远程存储库
     }
-    /*dependencies {
+    /*
+    dependencies {
         // NOTE: Do not place your application dependencies here: they belong in the individual module build.gradle files
-    }*/
+        // NOTE: 不要将应用程序依赖项放在这里：它们属于单个模块 build.gradle 文件
+    }
+    */
 }
 
-/**
- * 这里是给 具体的 module 里的 build.gradle 用的, 只有这里配置了仓库或者依赖, 在具体的 module 里的 build.gradle 中的 dependencies 才能依赖到这里仓库中的第三方库
- *  //  具体 module 的 dependencies 是给具体的源码用的(src),写代码时要用到的各种 api
- */
+/ *
+  * 这里是给 具体的 module 里的 build.gradle 用的, 只有这里配置了仓库或者依赖, 在具体的 module 里的 build.gradle 中的 dependencies 才能依赖到这里仓库中的第三方库
+  * 具体 module 的 dependencies 是给具体的源码用的(src),写代码时要用到的各种 api
+  */
+
+/ *
+  * The dependencyResolutionManagement { repositories {...}}
+  * block is where you configure the repositories and dependencies used by
+  * all modules in your project, such as libraries that you are using to
+  * create your application. However, you should configure module-specific
+  * dependencies in each module-level build.gradle file. For new projects,
+  * Android Studio includes Google's Maven repository
+  * and the Maven Central Repository by
+  * default, but it does not configure any dependencies (unless you select a
+  * template that requires some).
+  *
+  * dependencyResolutionManagement { repositories {...}} 块是您配置项目中所有模块使用的存储库和依赖项的地方，例如您用来创建应用程序的库。
+  * 但是，您应该在每个模块级 build.gradle 文件中配置特定于模块的依赖项。
+  * 对于新项目, Android Studio 默认包括谷歌的Maven 仓库和Maven Central Repository，但是它没有配置任何依赖（除非你选择一个需要一些的模板）。
+  */
 dependencyResolutionManagement {
 
-    /**
-     * The dependencyResolutionManagement { repositories {...}}
-     * block is where you configure the repositories and dependencies used by
-     * all modules in your project, such as libraries that you are using to
-     * create your application. However, you should configure module-specific
-     * dependencies in each module-level build.gradle file. For new projects,
-     * Android Studio includes Google's Maven repository
-     * and the Maven Central Repository by
-     * default, but it does not configure any dependencies (unless you select a
-     * template that requires some).
-     */
+    // 解析依赖时的模式(策略)，共有三种模式
 
+    // ----- 当项目中声明了存储库时，通过这个模式编译则会编译不通过。 如果确保了项目中没有声明任何存储库时，这个模式便可以编译通过 -----
+    // FAIL_ON_PROJECT_REPOS:   (false) 强制设置存储库     如果设置了此模式，则直接或通过插件在项目中直接声明的任何存储库都将触发构建错误。
+
+    // ----- 当项目中声明了存储库时，并优先使用 项目存储库 时使用这个模式 -----
+    // PREFER_PROJECT:  (true)  首选项目存储库             如果设置了此模式，则在项目上声明的任何存储库都会导致项目使用项目声明的存储库，而忽略设置中声明的存储库。
+
+    // ----- 当项目中声明了存储库时，并优先使用 外部存储库 时使用这个模式 -----
+    // PREFER_SETTINGS: (false) 首选设置存储库             如果设置了此模式，则将忽略直接或通过插件直接在项目中声明的任何存储库。
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
-        mavenCentral()
+        google()                            //Google 的 Maven
+        mavenCentral()                      //Maven Central Repository
+        maven {url 'https://jitpack.io'}    //自己添加的第三方远程存储库
     }
 }
 rootProject.name = "GradleStudy"
